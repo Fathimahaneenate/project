@@ -1,0 +1,164 @@
+
+
+
+import 'package:flutter/material.dart';
+
+class feedback extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Feedback Form',
+      home: FeedbackForm(),
+    );
+  }
+}
+
+class FeedbackForm extends StatefulWidget {
+ 
+ 
+  @override
+  _FeedbackFormState createState() => _FeedbackFormState();
+
+  
+}
+
+class _FeedbackFormState extends State<FeedbackForm> {
+  String _rating = '';
+  bool _receivedItems = false;
+  String _comment = '';
+  bool _submitted = false;
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(' Feedback Form'),
+      ),
+      
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+             Text(
+              'Rate your experience',
+              
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              
+              SizedBox(height: 10),
+              Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: _rating.isEmpty ? Color.fromARGB(255, 24, 3, 1) : const Color.fromARGB(255, 8, 1, 1), // Change border color based on whether rating is selected
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child:
+
+            DropdownButtonFormField<String>(
+              value: _rating.isEmpty ? null : _rating,
+              hint: Text('select rating'
+              ),
+              items: ['Excellent', 'Good', 'Average', 'Poor'].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _rating = value!;
+                });
+              },
+              validator: (value) {
+                if (value == null) {
+                  return 'Please select a rating';
+                }
+                return null;
+              },
+            ),),
+            SizedBox(height: 20),
+            Text(
+              'Did you receive the items you ordered?',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Row(
+            //SwitchListTile(
+              //title: Text('Yes'),
+              children: [
+                Radio(
+              value: true,
+              groupValue: _receivedItems,
+              onChanged: (value) {
+                setState(() {
+                  _receivedItems = value!;
+                });
+              },
+            ),
+            Text('yes'),
+             Radio(
+              value: false,
+              groupValue: _receivedItems,
+              onChanged: (value) {
+                setState(() {
+                  _receivedItems = value!;
+                });
+              },
+            ),
+            Text('no'),
+              ],
+            ),
+
+            SizedBox(height: 20),
+            Text(
+              'Comment your feedback',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Comment',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 5,
+              onChanged: (value) {
+                setState(() {
+                  _comment = value;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_rating.isNotEmpty && _comment.isNotEmpty) {
+                    setState(() {
+                      _submitted=true;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Thank you for your feedback!'),
+                    ),
+                    );
+                    // Here you can handle the feedback data
+                    
+                   
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ),
+           
+            
+        
+          ]
+        ),
+      ),
+    );
+  }
+}
+
+
+

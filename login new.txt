@@ -1,0 +1,171 @@
+import 'dart:js';
+
+import 'package:flutter/material.dart';
+import 'package:login/Login.dart';
+import 'package:login/forget.dart';
+import 'package:login/home.dart';
+import 'package:login/signup.dart';
+
+
+
+class loginpage extends StatefulWidget {
+  loginpage({super.key});
+
+  @override
+State<loginpage> createState() => _loginpageState();
+}
+
+class _loginpageState extends State<loginpage> {
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController _emailController=TextEditingController();
+    TextEditingController _passwordController=TextEditingController();
+
+
+   
+  
+  
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    var child2 = null;
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 2, 28, 49),
+      
+      appBar: AppBar(title: Text('login'),
+      ),
+      body:Padding(padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key:_formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+                    height: 60,
+                  ),
+                  SizedBox(
+                    child: Text(
+                      'Welcome Back ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Login to Continue',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+          
+         TextFormField(controller: _emailController,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+                    style: TextStyle(fontSize: 10, color: Colors.white),
+                    decoration: InputDecoration(labelText: 'Email',suffixIcon: Icon(Icons.person),
+              border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
+        validator: (value){
+    if (value!.isEmpty){
+      return 'Please enter an email';
+    }
+    RegExp emailRegExp = RegExp(r'^[\w.\.]+@([\w.]+\.)+[\w.]{2,4}$');
+    if (!emailRegExp.hasMatch(value)){
+      return 'Please enter a valid email';
+    }
+    return null;
+         },),
+         SizedBox(height: 10,
+         ),
+            TextFormField(
+              controller: _passwordController,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+                    style: TextStyle(fontSize: 10, color: Colors.white),
+            decoration: InputDecoration(
+              labelText: 'Password',
+              suffixIcon: Icon(Icons.lock),
+              border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0))),
+            obscureText: true,
+        validator: (value){
+          if(value!.isEmpty){
+            return'please enter your password';
+          }
+return null;
+        },
+            ),
+          SizedBox(
+            height: 16,
+          ),
+          ElevatedButton(onPressed: (){
+             if(_formKey.currentState!.validate()){
+              Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return homee();
+          },
+        ),
+              );
+              String email=_emailController.text;
+              String password=_passwordController.text;
+              Navigator.pushReplacementNamed(context, '/homee');
+             
+             }
+             
+             
+          },
+          child: Text('LOGIN', style: TextStyle(fontSize: 10, color: Colors.blue),),
+             ),
+             TextButton(onPressed: (){
+             Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return forget();
+          }));
+             
+             }, 
+             child: Text('Forget Password?',style: TextStyle(fontSize: 10, color: Colors.blue)),
+             ),
+              SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Dont have an account?',
+                      style: TextStyle(fontSize: 10, color: Colors.white)),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return signups();
+          },
+        ),
+      );
+                    },
+                    child: Text('Register',
+                        style: TextStyle(color: Color.fromARGB(255, 71, 99, 177), fontSize: 10)),
+                  ),
+        ],
+        ),
+      ),
+      ),
+    );
+  }
+}
+
+          
+         
+              
+
+           
+                    

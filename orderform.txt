@@ -1,0 +1,154 @@
+import 'package:flutter/material.dart';
+import 'package:login/orderdetail.dart';
+
+class OrderPage extends StatefulWidget {
+  @override
+  _OrderPageState createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  String _name = '';
+  String _coachName = '';
+  String _seatNumber = '';
+  String _mobileNumber = '';
+  int _totalProduct = 0;
+  double _totalAmount = 0.0;
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: _selectedTime);
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _selectedTime = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Order Page',style: TextStyle(fontSize: 20,color: Colors.blue),),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Name',
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(10.0))),
+              
+              onChanged: (value) {
+                setState(() {
+                  _name = value;
+                });
+              },
+            ),
+             SizedBox(height: 10),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Coach Name',
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(10.0))),
+              onChanged: (value) {
+                setState(() {
+                  _coachName = value;
+                });
+              },
+            ),
+             SizedBox(height: 10),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Seat Number',
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(10.0))),
+              onChanged: (value) {
+                setState(() {
+                  _seatNumber = value;
+                });
+              },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Mobile Number',
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(10.0))),
+              keyboardType: TextInputType.phone,
+              onChanged: (value) {
+                setState(() {
+                  _mobileNumber = value;
+                });
+              },
+            ),
+             SizedBox(height: 10),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Total Product',
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(10.0))),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                setState(() {
+                  _totalProduct = int.tryParse(value) ?? 0;
+                });
+              },
+            ),
+             SizedBox(height: 10),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Total Amount',
+              border: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(10.0))),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onChanged: (value) {
+                setState(() {
+                  _totalAmount = double.tryParse(value) ?? 0.0;
+                });
+              },
+            ),
+            SizedBox(height: 10.0),
+            Text('Date: ${_selectedDate.toString().split(' ')[0]}'),
+            ElevatedButton(
+              onPressed: () => _selectDate(context),
+              child: Text('Select Date'),
+            ),
+            SizedBox(height: 10.0),
+            Text('Time: ${_selectedTime.format(context)}'),
+            ElevatedButton(
+              onPressed: () => _selectTime(context),
+              child: Text('Select Time'),
+            ),
+            SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return orderdetails();
+              },
+          ),);},
+              child: Text('Place Order'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
